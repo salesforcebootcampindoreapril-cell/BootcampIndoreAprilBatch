@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Update Project Manager to David Baker</description>
+        <name>Update_Project_Managr</name>
+        <label>Update Project Manager</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Project_Manager__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_David_Bakker.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
     <decisions>
         <name>Check_If_User_Found</name>
         <label>Check If User Found</label>
-        <locationX>176</locationX>
-        <locationY>335</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <defaultConnectorLabel>User Not Found</defaultConnectorLabel>
         <rules>
             <name>User_Found</name>
@@ -18,7 +33,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Update_Project_Manager</targetReference>
+                <targetReference>Update_Project_Managr</targetReference>
             </connector>
             <label>User Found</label>
         </rules>
@@ -46,37 +61,11 @@
         </value>
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
-    <recordCreates>
-        <name>Create_Chatter_Post</name>
-        <label>Create Chatter Post</label>
-        <locationX>44</locationX>
-        <locationY>551</locationY>
-        <inputAssignments>
-            <field>Body</field>
-            <value>
-                <stringValue>Project Manager David Bakker has been auto-assigned to this project.</stringValue>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>ParentId</field>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Type</field>
-            <value>
-                <stringValue>TextPost</stringValue>
-            </value>
-        </inputAssignments>
-        <object>FeedItem</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordCreates>
     <recordLookups>
         <name>Get_David_Bakker</name>
         <label>Get David Bakker</label>
-        <locationX>176</locationX>
-        <locationY>215</locationY>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Check_If_User_Found</targetReference>
@@ -89,48 +78,18 @@
                 <stringValue>David Bakker</stringValue>
             </value>
         </filters>
-        <filters>
-            <field>IsActive</field>
-            <operator>EqualTo</operator>
-            <value>
-                <booleanValue>true</booleanValue>
-            </value>
-        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>User</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordUpdates>
-        <name>Update_Project_Manager</name>
-        <label>Update Project Manager</label>
-        <locationX>44</locationX>
-        <locationY>443</locationY>
-        <connector>
-            <targetReference>Create_Chatter_Post</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>Project_Manager__c</field>
-            <value>
-                <elementReference>Get_David_Bakker.Id</elementReference>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
     <start>
-        <locationX>50</locationX>
+        <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_David_Bakker</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
-        <filters>
-            <field>RecordType.DeveloperName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Client_Project</stringValue>
-            </value>
-        </filters>
         <filters>
             <field>Project_Manager__c</field>
             <operator>IsNull</operator>
@@ -140,7 +99,7 @@
         </filters>
         <object>Project__c</object>
         <recordTriggerType>Create</recordTriggerType>
-        <triggerType>RecordAfterSave</triggerType>
+        <triggerType>RecordBeforeSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
 </Flow>
