@@ -1,0 +1,7 @@
+Resource_Name__c,Employee__c,Role__c,Daily_Rate__c,Availability__c,Skills__c
+RES-0001,Clara Smit,Project Manager,850,80,"Project Management; Agile; Stakeholder Management; Risk Assessment"
+RES-0002,David Bakker,Project Manager,1100,90,"Senior PM; Programme Management; Budgeting; PMP Certified"
+RES-0003,Eva Jansen,Analyst,750,100,"Business Analysis; Process Mapping; Requirements Gathering; SQL"
+RES-0004,Frank Visser,Consultant,1250,60,"Solution Architecture; Salesforce; ERP; Executive Presentations"
+RES-0005,Alice van Berg,Consultant,900,70,"Client Relations; Sales Support; CRM Implementation"
+RES-0006,Hans Mulder,Analyst,700,100,"Data Analysis; Dashboard Design; Power BI; Tableau"

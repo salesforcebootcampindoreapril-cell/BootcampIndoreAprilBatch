@@ -1,0 +1,11 @@
+Client_Name__c,Client_Code__c,Industry__c,Country__c,Annual_Revenue__c,Client_Tier__c,Contract_Start__c,Contract_End__c,Is_Active__c,Website__c
+Axiom Digital BV,CLT-0001,Technology,Netherlands,2400000,Platinum,2023-01-01,2025-12-31,true,www.axiomdigital.nl
+FinCore Solutions,CLT-0002,Finance,Germany,1800000,Platinum,2023-03-01,2026-02-28,true,www.fincore.de
+MediPath Group,CLT-0003,Healthcare,Netherlands,950000,Gold,2023-06-15,2025-06-14,true,www.medipathgroup.nl
+RetailEdge NV,CLT-0004,Retail,Belgium,720000,Gold,2023-09-01,2025-08-31,true,www.retailedge.be
+Struktura Manufacturing,CLT-0005,Manufacturing,Germany,1100000,Gold,2024-01-01,2025-12-31,true,www.struktura.de
+CloudBridge UK,CLT-0006,Technology,UK,580000,Silver,2024-04-01,2026-03-31,true,www.cloudbridge.co.uk
+NordPharma AS,CLT-0007,Healthcare,Netherlands,430000,Silver,2024-07-15,2026-07-14,true,www.nordpharma.nl
+VividCommerce,CLT-0008,Retail,France,310000,Bronze,2024-10-01,2025-09-30,true,www.vividcommerce.fr
+DataNest GmbH,CLT-0009,Technology,Germany,890000,Gold,2024-02-01,2026-01-31,true,www.datanest.de
+Horizon Logistics,CLT-0010,Manufacturing,Netherlands,250000,Bronze,2024-11-01,2025-10-31,false,www.horizonlogistics.nl

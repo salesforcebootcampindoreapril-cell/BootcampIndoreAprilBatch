@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <decisions>
+        <name>Check_Budget_Overspend</name>
+        <label>Check Budget Overspend</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>No Overspend</defaultConnectorLabel>
+        <rules>
+            <name>Budget_Exceeded</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Budget_Variance__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Status_to_On_Hold</targetReference>
+            </connector>
+            <label>Budget Exceeded</label>
+        </rules>
+    </decisions>
+    <description>Automatically places Project on hold and alerts Operations Manager when budget is exceeded</description>
+    <environments>Default</environments>
+    <interviewLabel>Budget Overspend Alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Budget Overspend Alert</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Chatter_Alert</name>
+        <label>Create Chatter Alert</label>
+        <locationX>44</locationX>
+        <locationY>671</locationY>
+        <inputAssignments>
+            <field>Body</field>
+            <value>
+                <stringValue>⚠️ Budget Alert: This project has exceeded its budget. Actual Cost: {!$Record.Actual_Cost__c} | Budget: {!$Record.Budget__c}. Project placed On Hold pending review. @Frank Visser please review immediately.</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ParentId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Type</field>
+            <value>
+                <stringValue>TextPost</stringValue>
+            </value>
+        </inputAssignments>
+        <object>FeedItem</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_Operations_Manager</name>
+        <label>Get Operations Manager</label>
+        <locationX>44</locationX>
+        <locationY>551</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Create_Chatter_Alert</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Frank Visser</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Status_to_On_Hold</name>
+        <label>Update Status to On Hold</label>
+        <locationX>44</locationX>
+        <locationY>443</locationY>
+        <connector>
+            <targetReference>Get_Operations_Manager</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>On Hold</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Budget_Overspend</targetReference>
+        </connector>
+        <filterFormula>AND(
+    {!$Record.Actual_Cost__c} &gt; {!$Record.Budget__c},
+    TEXT({!$Record.Status__c}) &lt;&gt; &quot;On Hold&quot;,
+    TEXT(PRIORVALUE({!$Record.Status__c})) &lt;&gt; &quot;On Hold&quot;
+)</filterFormula>
+        <object>Project__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

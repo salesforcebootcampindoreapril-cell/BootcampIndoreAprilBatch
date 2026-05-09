@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <assignments>
+        <name>Set_End_Date</name>
+        <label>Set End Date</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.End_Date__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Sets End Date when a Project status changes to Completed or Cancelled</description>
+    <environments>Default</environments>
+    <interviewLabel>Project Status Change Notification {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Project Status Change Notification</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_End_Date</targetReference>
+        </connector>
+        <filterFormula>AND(
+    OR(
+        TEXT({!$Record.Status__c}) = "Completed",
+        TEXT({!$Record.Status__c}) = "Cancelled"
+    ),
+    OR(
+        TEXT(PRIORVALUE({!$Record.Status__c})) &lt;&gt; "Completed",
+        TEXT(PRIORVALUE({!$Record.Status__c})) &lt;&gt; "Cancelled"
+    )
+)</filterFormula>
+        <object>Project__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
